@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TestDB" Class="TestDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ADMINRG-TSF729J\SQLEXPRESS;Initial Catalog=TestDB;Integrated Security=True" SettingsObjectName="LINQtoSQL.Properties.Settings" SettingsPropertyName="TestDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Dept" Member="Depts">
+    <Type Name="Dept">
+      <Column Name="Deptno" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Loc" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Dept_Emp" Member="Emps" ThisKey="Deptno" OtherKey="Deptno" Type="Emp" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Emp" Member="Emps">
+    <Type Name="Emp">
+      <Column Name="Empno" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ename" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Job" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Mgr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HireDate" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
+      <Column Name="Sal" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Comm" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Deptno" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Emp_Emp" Member="Emps" ThisKey="Empno" OtherKey="Mgr" Type="Emp" />
+      <Association Name="Dept_Emp" Member="Dept" ThisKey="Deptno" OtherKey="Deptno" Type="Dept" IsForeignKey="true" />
+      <Association Name="Emp_Emp" Member="Emp1" ThisKey="Mgr" OtherKey="Empno" Type="Emp" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="Custid" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Balance" Type="System.Decimal" DbType="Decimal(9,2)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Customer_Transaction" Member="Transactions" ThisKey="Custid" OtherKey="Custid" Type="Transaction" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Transactions" Member="Transactions">
+    <Type Name="Transaction">
+      <Column Name="TransId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Custid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TransType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TransDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TransTime" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="TransAmount" Type="System.Decimal" DbType="Decimal(9,2)" CanBeNull="true" />
+      <Column Name="TransRemarks" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="Customer_Transaction" Member="Customer" ThisKey="Custid" OtherKey="Custid" Type="Customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetEmployees" Method="GetEmployees">
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="GetEmployeesResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.AddNewEmpDetails" Method="AddNewEmpDetails">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>
